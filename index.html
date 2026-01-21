@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a3d62">
+    <meta name="description" content="بث إذاعي مباشر لقوات الطوارئ اليمنية – الفرقة الرابعة FM">
+    <meta property="og:image" content="https://talalye1.github.io/fm/logo.jpg">
+    <title>إذاعة الفرقة الرابعة FM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="https://talalye1.github.io/fm/logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="مشغل الراديو">
+<link rel="apple-touch-icon" href="icon-152x152.png">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="مشغل الراديو">
+
+<meta name="msapplication-TileColor" content="#1a1a2e">
+<meta name="msapplication-TileImage" content="icon-144x144.png">
+<meta name="msapplication-config" content="browserconfig.xml">
+    <link rel="manifest" href="manifest.json">
+    <link rel="service-worker" href="service-worker.js">
+
+<meta name="theme-color" content="#1a1a2e">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #0a3d62;
+            --secondary-color: #079992;
+            --accent-color: #e74c3c;
+            --dark-color: #1e272e;
+            --light-color: #f5f5f5;
+            --text-color: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 140px; /* مساحة لأزرار التواصل الاجتماعي */
+        }
+
+        /* الخلفية المتحركة */
+        .background-panorama {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300%;
+            height: 100%;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            animation: panoramaMove 60s linear infinite alternate;
+        }
+
+        @keyframes panoramaMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-66.666%); }
+        }
+
+        /* طبقة التعتيم */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+
+        /* الحاوية الرئيسية */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* الهيدر */
+        header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--secondary-color);
+            box-shadow: var(--shadow);
+            margin: 0 auto 20px;
+            display: block;
+            background-color: white;
+            padding: 5px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .description {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            color: #ddd;
+        }
+
+        /* قسم البث */
+        .broadcast-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+
+        .player-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .radio-player {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(10, 61, 98, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .player-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .play-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .play-btn:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+
+        .play-btn.playing {
+            background-color: var(--secondary-color);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .volume-slider {
+            flex-grow: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            cursor: pointer;
+        }
+
+        .volume-icon {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        /* قسم المؤقت - تم التعديل هنا */
+        .timer-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .timer-options {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: nowrap;
+        }
+
+        .timer-btn {
+            padding: 10px 18px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            min-width: 70px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .timer-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .timer-btn.active {
+            background-color: var(--secondary-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .timer-cancel-btn {
+            padding: 10px 20px;
+            background-color: #7f8c8d;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            min-width: 100px;
+            text-align: center;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .timer-cancel-btn:hover {
+            background-color: #6c7b7d;
+            transform: translateY(-2px);
+        }
+
+        .timer-display {
+            text-align: center;
+            font-size: 1.4rem;
+            color: var(--secondary-color);
+            margin-top: 15px;
+            min-height: 40px;
+            font-weight: bold;
+        }
+
+        /* أزرار التواصل الاجتماعي - الآن أسفل الصفحة */
+        .social-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 61, 98, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            z-index: 100;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
+            border-top: 2px solid var(--secondary-color);
+        }
+
+        .social-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 0 20px;
+        }
+
+        .social-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-5px);
+        }
+
+        .whatsapp { background-color: #25D366; }
+        .facebook { background-color: #3b5998; }
+        .twitter { background-color: #000000; }
+        .youtube { background-color: #FF0000; }
+
+        /* زر تثبيت PWA */
+        .install-btn {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--shadow);
+            z-index: 101;
+            transition: all 0.3s ease;
+        }
+
+        .install-btn:hover {
+            background-color: #05756e;
+            transform: translateY(-3px);
+        }
+
+        /* الفوتر */
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: #aaa;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* التجاوب مع الأجهزة المحمولة */
+        @media (max-width: 768px) {
+            body {
+                padding-bottom: 120px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .description {
+                font-size: 1rem;
+            }
+
+            .radio-player {
+                padding: 20px;
+            }
+
+            .play-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            /* تعديلات قسم المؤقت للجوال */
+            .timer-section {
+                padding: 20px;
+            }
+            
+            .timer-options {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
+            
+            .timer-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+                min-width: 60px;
+                flex: 0 0 calc(33% - 10px);
+                max-width: 80px;
+            }
+            
+            .timer-cancel-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+                min-width: 80px;
+                margin-top: 10px;
+                margin-right: 0;
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            .timer-display {
+                font-size: 1.2rem;
+            }
+
+            .install-btn {
+                bottom: 100px;
+                right: 10px;
+                font-size: 0.9rem;
+                padding: 12px 20px;
+            }
+
+            .social-bar {
+                padding: 10px 0;
+            }
+
+            .social-container {
+                gap: 15px;
+            }
+
+            .social-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+        }
+
+        /* مؤشر التشغيل */
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #e74c3c;
+            animation: pulse 1.5s infinite;
+        }
+
+        .status-text {
+            font-size: 1rem;
+            color: #ddd;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        /* إشعارات */
+        .notification {
+            position: fixed;
+            bottom: 150px;
+            right: 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            display: none;
+            max-width: 300px;
+        }
+
+        .notification.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* تحسينات للوضوح */
+        .social-title {
+            text-align: center;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* تأثيرات إضافية */
+        .pulse-effect {
+            animation: pulse 2s infinite;
+        }
+        
+        /* تحسينات لقسم المؤقت */
+        .timer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .timer-label {
+            font-size: 1.4rem;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        .timer-buttons-container {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- خلفية متحركة -->
+    <div class="background-panorama"></div>
+    <div class="overlay"></div>
+
+    <div class="container">
+        <!-- الهيدر -->
+        <header>
+            <img src="logo.png" alt="شعار إذاعة الفرقة الرابعة FM" class="logo">
+            <h1>إذاعة الفرقة الرابعة FM</h1>
+            <p class="description">
+                بث إذاعي مباشر لقوات الطوارئ اليمنية – الفرقة الرابعة . استمع إلى آخر الأخبار والتقارير والزوامل الحماسية.
+            </p>
+        </header>
+
+        <!-- قسم البث المباشر -->
+        <section class="broadcast-section">
+            <h2 class="section-title">🎧 البث المباشر</h2>
+            <div class="player-container">
+                <div class="radio-player">
+                    <div class="player-controls">
+                        <button class="play-btn" id="playButton">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="status-indicator">
+                        <div class="status-dot" id="statusDot"></div>
+                        <span class="status-text" id="statusText">جاهز للبث</span>
+                    </div>
+
+                    <div class="volume-control">
+                        <i class="fas fa-volume-up volume-icon"></i>
+                        <input type="range" min="0" max="100" value="70" class="volume-slider" id="volumeSlider">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم المؤقت - النسخة المحسنة -->
+        <section class="timer-section">
+            <div class="timer-header">
+                <h2 class="section-title">⏰ مؤقت النوم</h2>
+            </div>
+            
+            <div class="timer-buttons-container">
+                <button class="timer-btn" data-minutes="15">15 د</button>
+                <button class="timer-btn" data-minutes="30">30 د</button>
+                <button class="timer-btn" data-minutes="45">45 د</button>
+                <button class="timer-btn" data-minutes="60">60 د</button>
+            </div>
+                <div class="timer-buttons-container">
+                <button class="timer-cancel-btn" id="cancelTimer">إلغاء</button>
+            </div>
+            
+            <div class="timer-display" id="timerDisplay"></div>
+        </section>
+
+        <!-- معلومات إضافية -->
+        <section class="broadcast-section">
+            <h2 class="section-title">🔌 برمجة طلال المقطري</h2>
+            <p style="line-height: 1.8; text-align: center; font-size: 1.1rem;">
+        </section>
+
+        <!-- الفوتر -->
+        <footer>
+            <p> جميع الحقوق محفوظة©
+            <p>  للفرقة الرابعة - قوات الطوارئ اليمنية.2026</p>
+        </footer>
+    </div>
+
+    <!-- أزرار التواصل الاجتماعي - مثبتة أسفل الصفحة -->
+    <div class="social-bar">
+        <div class="social-container">
+            <div style="display: flex; gap: 20px;">
+                <a href="https://chat.whatsapp.com/Er08dIdTfYm3S0zlWYSKxf" class="social-btn whatsapp" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=100041373050085&mibextid=ZbWKwL" class="social-btn facebook" target="_blank">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://x.com/MihwarKataf" class="social-btn twitter" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://youtube.com/@mhwarktaf" class="social-btn youtube" target="_blank">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- زر تثبيت PWA -->
+    <button class="install-btn" id="installButton">
+        <i class="fas fa-download"></i>
+        تثبيت التطبيق
+    </button>
+
+    <!-- إشعارات -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // عناصر DOM
+        const playButton = document.getElementById('playButton');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const timerButtons = document.querySelectorAll('.timer-btn');
+        const cancelTimerButton = document.getElementById('cancelTimer');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+        const installButton = document.getElementById('installButton');
+        const notification = document.getElementById('notification');
+
+        // متغيرات التحكم
+        let audio = null;
+        let isPlaying = false;
+        let timerInterval = null;
+        let remainingTime = 0;
+        let deferredPrompt = null;
+
+        // تهيئة البث الصوتي
+        function initAudio() {
+            audio = new Audio('https://stream.zeno.fm/yc16fdrhuuhvv');
+            audio.crossOrigin = 'anonymous';
+            audio.preload = 'auto';
+            audio.volume = volumeSlider.value / 100;
+            
+            // تشغيل تلقائي عند تحميل الصفحة
+            playAudio();
+            
+            // أحداث البث
+            audio.addEventListener('playing', () => {
+                isPlaying = true;
+                updatePlayButton();
+                updateStatus('جاري البث المباشر', '#2ecc71');
+            });
+            
+            audio.addEventListener('pause', () => {
+                isPlaying = false;
+                updatePlayButton();
+                updateStatus('متوقف', '#e74c3c');
+            });
+            
+            audio.addEventListener('error', () => {
+                isPlaying = false;
+                updatePlayButton();
+                updateStatus('خطأ في الاتصال', '#e74c3c');
+                showNotification('حدث خطأ في الاتصال بالبث. يرجى المحاولة مرة أخرى.');
+            });
+            
+            audio.addEventListener('waiting', () => {
+                updateStatus('جاري التحميل...', '#f39c12');
+            });
+        }
+
+        // تشغيل/إيقاف البث
+        function togglePlayback() {
+            if (!audio) return;
+            
+            if (isPlaying) {
+                audio.pause();
+            } else {
+                playAudio();
+            }
+        }
+
+        // تشغيل البث
+        function playAudio() {
+            if (!audio) return;
+            
+            audio.play().catch(error => {
+                console.error('خطأ في تشغيل البث:', error);
+                updateStatus('إضغط للتشغيل', '#f39c12');
+                showNotification('يرجى النقر على زر التشغيل لتشغيل البث.');
+            });
+        }
+
+        // تحديث زر التشغيل
+        function updatePlayButton() {
+            const icon = playButton.querySelector('i');
+            if (isPlaying) {
+                playButton.classList.add('playing');
+                icon.className = 'fas fa-pause';
+            } else {
+                playButton.classList.remove('playing');
+                icon.className = 'fas fa-play';
+            }
+        }
+
+        // تحديث حالة البث
+        function updateStatus(text, color) {
+            statusText.textContent = text;
+            statusDot.style.backgroundColor = color;
+        }
+
+        // التحكم في الصوت
+        volumeSlider.addEventListener('input', () => {
+            if (audio) {
+                audio.volume = volumeSlider.value / 100;
+            }
+        });
+
+        // المؤقت
+        function startTimer(minutes) {
+            // إلغاء أي مؤقت سابق
+            clearInterval(timerInterval);
+            
+            // تعيين الوقت المتبقي بالثواني
+            remainingTime = minutes * 60;
+            
+            // تحديث العرض
+            updateTimerDisplay();
+            
+            // تفعيل زر المؤقت النشط
+            timerButtons.forEach(btn => {
+                if (parseInt(btn.dataset.minutes) === minutes) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // بدء العد التنازلي
+            timerInterval = setInterval(() => {
+                remainingTime--;
+                updateTimerDisplay();
+                
+                // عند انتهاء الوقت
+                if (remainingTime <= 0) {
+                    clearInterval(timerInterval);
+                    if (audio && isPlaying) {
+                        audio.pause();
+                    }
+                    timerDisplay.textContent = 'تم إيقاف البث تلقائيًا';
+                    showNotification('تم إيقاف البث تلقائيًا بعد انتهاء المؤقت.');
+                    
+                    // إزالة التفعيل من جميع الأزرار
+                    timerButtons.forEach(btn => btn.classList.remove('active'));
+                }
+            }, 1000);
+        }
+
+        // تحديث عرض المؤقت
+        function updateTimerDisplay() {
+            const minutes = Math.floor(remainingTime / 60);
+            const seconds = remainingTime % 60;
+            timerDisplay.textContent = `متبقي: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // إلغاء المؤقت
+        function cancelTimer() {
+            clearInterval(timerInterval);
+            timerDisplay.textContent = '';
+            timerButtons.forEach(btn => btn.classList.remove('active'));
+            showNotification('تم إلغاء المؤقت.');
+        }
+
+        // إضافة أحداث للمؤقت
+        timerButtons.forEach(button => {
+            if (!button.id || button.id !== 'cancelTimer') {
+                button.addEventListener('click', () => {
+                    const minutes = parseInt(button.dataset.minutes);
+                    startTimer(minutes);
+                    showNotification(`تم ضبط المؤقت على ${minutes} دقيقة.`);
+                });
+            }
+        });
+
+        cancelTimerButton.addEventListener('click', cancelTimer);
+
+        // إظهار الإشعارات
+        function showNotification(message) {
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // دعم PWA
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // منع المتصفح من عرض رسالة التثبيت التلقائية
+            e.preventDefault();
+            // حفظ الحدث ليتم استخدامه لاحقًا
+            deferredPrompt = e;
+            // إظهار زر التثبيت
+            installButton.style.display = 'flex';
+        });
+
+        installButton.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            
+            // عرض رسالة التثبيت
+            deferredPrompt.prompt();
+            
+            // انتظار اختيار المستخدم
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+                showNotification('تم تثبيت التطبيق بنجاح!');
+                installButton.style.display = 'none';
+            }
+            
+            deferredPrompt = null;
+        });
+
+        // إخفاء زر التثبيت إذا كان التطبيق مثبتًا بالفعل
+        window.addEventListener('appinstalled', () => {
+            installButton.style.display = 'none';
+            deferredPrompt = null;
+        });
+
+        // التحقق مما إذا كان التطبيق مثبتًا بالفعل
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            installButton.style.display = 'none';
+        }
+
+        // منع انطفاء الشاشة
+        if ('wakeLock' in navigator) {
+            let wakeLock = null;
+            
+            const requestWakeLock = async () => {
+                try {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                    console.log('تم تفعيل منع انطفاء الشاشة');
+                } catch (err) {
+                    console.error(`فشل في تفعيل منع انطفاء الشاشة: ${err.message}`);
+                }
+            };
+            
+            // طلب منع انطفاء الشاشة عند تشغيل البث
+            playButton.addEventListener('click', () => {
+                if (isPlaying && wakeLock === null) {
+                    requestWakeLock();
+                }
+            });
+            
+            // إعادة طلب منع انطفاء الشاشة عند إعادة رؤية الصفحة
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible' && isPlaying && wakeLock === null) {
+                    requestWakeLock();
+                }
+            });
+        }
+
+        // تهيئة الصفحة عند التحميل
+        window.addEventListener('DOMContentLoaded', () => {
+            initAudio();
+            playButton.addEventListener('click', togglePlayback);
+            
+            // إظهار رسالة ترحيب
+            setTimeout(() => {
+                showNotification('مرحبًا بكم في إذاعة الفرقة الرابعة FM. جاري تشغيل البث...');
+            }, 1000);
+            
+            // إضافة تأثير النبض لأزرار التواصل الاجتماعي عند التحميل
+            const socialButtons = document.querySelectorAll('.social-btn');
+            socialButtons.forEach((btn, index) => {
+                setTimeout(() => {
+                    btn.classList.add('pulse-effect');
+                    setTimeout(() => {
+                        btn.classList.remove('pulse-effect');
+                    }, 2000);
+                }, index * 300);
+            });
+            
+            // إضافة تأثير النبض لأزرار المؤقت عند التحميل
+            const timerBtns = document.querySelectorAll('.timer-btn');
+            timerBtns.forEach((btn, index) => {
+                setTimeout(() => {
+                    btn.classList.add('pulse-effect');
+                    setTimeout(() => {
+                        btn.classList.remove('pulse-effect');
+                    }, 1500);
+                }, index * 200 + 1000);
+            });
+        });
+
+        // الحفاظ على تشغيل البث عند إغلاق الصفحة
+        window.addEventListener('beforeunload', () => {
+            if (audio && isPlaying) {
+                // هنا يمكن حفظ حالة التشغيل للتطبيق المثبت
+                localStorage.setItem('radioPlaying', 'true');
+            }
+        });
+
+        // إضافة تأثيرات تفاعلية لأزرار التواصل الاجتماعي
+        document.querySelectorAll('.social-btn').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.1)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+            
+            button.addEventListener('click', function() {
+                this.style.transform = 'translateY(-5px) scale(1.1)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(0) scale(1)';
+                }, 300);
+            });
+        });
+        
+        // إضافة تأثيرات تفاعلية لأزرار المؤقت
+        document.querySelectorAll('.timer-btn, .timer-cancel-btn').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('active')) {
+                    this.style.transform = 'translateY(-2px)';
+                }
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('active')) {
+                    this.style.transform = 'translateY(0)';
+                }
+            });
+            
+            button.addEventListener('click', function() {
+                this.style.transform = 'translateY(-2px)';
+                setTimeout(() => {
+                    if (!this.classList.contains('active')) {
+                        this.style.transform = 'translateY(0)';
+                    }
+                }, 300);
+            });
+        });
+            
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then(registration => {
+        console.log('Service Worker registered successfully:', registration);
+      })
+      .catch(error => {
+        console.log('Service Worker registration failed:', error);
+      });
+  });
+}
+    </script>
+</body>
+</html>

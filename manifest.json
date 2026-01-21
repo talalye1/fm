@@ -1,0 +1,111 @@
+{
+  "name": "إذاعة الفرقة الرابعة _ قوات الطوارىء اليمنية",
+  "short_name": "إذاعة الفرقة الرابعة",
+  "description": "مشغل راديو مع خاصية مؤقت الغفوة للاستماع إلى محطات الراديو المفضلة",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#16213e",
+  "theme_color": "#1a1a2e",
+  "orientation": "any",
+  "categories": [
+    "music",
+    "entertainment",
+    "utilities"
+  ],
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "واجهة مشغل الراديو الرئيسية"
+    },
+    {
+      "src": "screenshot2.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "مؤقت الغفوة النشط"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "تشغيل الراديو",
+      "short_name": "تشغيل",
+      "description": "فتح وتشغيل الراديو مباشرة",
+      "url": "/?play=true",
+      "icons": [
+        {
+          "src": "play-icon.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "ضبط مؤقت الغفوة",
+      "short_name": "مؤقت",
+      "description": "فتح وضبط مؤقت الغفوة مباشرة",
+      "url": "/?timer=true",
+      "icons": [
+        {
+          "src": "itimer-icon.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "scope": "/",
+  "id": "/"
+}
