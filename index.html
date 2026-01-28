@@ -96,7 +96,7 @@
             z-index: 1;
         }
 
-        /* الهيدر */
+       u /* الهيدر */
         header {
             text-align: center;
             padding: 20px 0;
@@ -131,7 +131,7 @@
             color: #ddd;
         }
 
-        /* قسم البث */
+        y/* قسم البث */
         .broadcast-section {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
@@ -207,14 +207,9 @@
             margin-top: 20px;
         }
 
-        .volume-slider {
-            flex-grow: 1;
-            -webkit-appearance: none;
-            appearance: none;
-            height: 8px;
-            border-radius: 5px;
-            background: #ddd;
-            outline: none;
+        .volume-slider { 
+    flex-grow: 1;
+    cursor: pointer;
         }
 
         .volume-slider::-webkit-slider-thumb {
@@ -232,8 +227,8 @@
             color: var(--secondary-color);
         }
 
-        /* قسم المؤقت - تم التعديل هنا */
-        .timer-section {
+        /* قسم المؤقت - التصميم الجديد */
+        .timer-container {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 20px;
@@ -241,72 +236,167 @@
             margin-bottom: 30px;
             box-shadow: var(--shadow);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
         }
 
-        .timer-options {
-            display: flex;
-            justify-content: center;
+        .timer-display-main {
+            text-align: center;
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            min-height: 40px;
+            font-weight: bold;
+            direction: ltr;
+        }
+
+        .timer-main-btn {
+            padding: 15px 30px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: nowrap;
+            margin: 10px 0;
         }
 
-        .timer-btn5 {
-            padding: 10px 18px;
+        .timer-main-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        .timer-main-btn.cancel {
+            background-color: var(--accent-color);
+        }
+
+        .timer-main-btn.cancel:hover {
+            background-color: #c0392b;
+        }
+
+        /* نافذة المؤقت المنبثقة */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--dark-color);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--secondary-color);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        .modal-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .modal-timer-btn {
+            padding: 15px;
             background-color: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 30px;
-            font-size: 1rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            white-space: nowrap;
-            min-width: 70px;
-            text-align: center;
-            flex-shrink: 0;
         }
 
-        .timer-btn:hover {
+        .modal-timer-btn:hover {
             background-color: var(--secondary-color);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
         }
 
-        .timer-btn.active {
-            background-color: var(--secondary-color);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transform: translateY(-2px);
+        /* قسم المشاركة على وسائل التواصل الاجتماعي */
+        .share-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .timer-cancel-btn {
-            padding: 10px 20px;
-            background-color: #7f8c8d;
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 1rem;
-            cursor: pointer;
+            font-size: 1.5rem;
+            text-decoration: none;
             transition: all 0.3s ease;
-            white-space: nowrap;
-            min-width: 100px;
-            text-align: center;
-            margin-right: 10px;
-            flex-shrink: 0;
+            box-shadow: var(--shadow);
+            border: none;
+            cursor: pointer;
         }
 
-        .timer-cancel-btn:hover {
-            background-color: #6c7b7d;
-            transform: translateY(-2px);
+        .share-btn:hover {
+            transform: translateY(-5px) scale(1.1);
         }
 
-        .timer-display {
-            text-align: center;
-            font-size: 1.4rem;
-            color: var(--secondary-color);
-            margin-top: 15px;
-            min-height: 40px;
-            font-weight: bold;
+        .share-facebook { background-color: #3b5998; }
+        .share-whatsapp { background-color: #25D366; }
+        .share-instagram { 
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
         }
+        .share-twitter { background-color: #000000; }
+        .share-telegram { background-color: #0088cc; }
+        .share-general { background-color: var(--secondary-color); }
 
         /* أزرار التواصل الاجتماعي - الآن أسفل الصفحة */
         .social-bar {
@@ -390,89 +480,6 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* التجاوب مع الأجهزة المحمولة */
-        @media (max-width: 768px) {
-            body {
-                padding-bottom: 120px;
-            }
-            
-            .container {
-                padding: 10px;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .description {
-                font-size: 1rem;
-            }
-
-            .radio-player {
-                padding: 10px;
-            }
-
-            .play-btn {
-                width: 60px;
-                height: 60px;
-                font-size: 1.5rem;
-            }
-
-            /* تعديلات قسم المؤقت للجوال */
-            .timer-section {
-                padding: 20px;
-            }
-            
-            .timer-options {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 8px;
-            }
-            
-            .timer-btn {
-                padding: 8px 15px;
-                font-size: 0.9rem;
-                min-width: 60px;
-                flex: 0 0 calc(33% - 10px);
-                max-width: 30px;
-            }
-            
-            .timer-cancel-btn {
-                padding: 8px 15px;
-                font-size: 0.9rem;
-                min-width: 80px;
-                margin-top: 10px;
-                margin-right: 0;
-                width: 100%;
-                max-width: 200px;
-            }
-            
-            .timer-display {
-                font-size: 1.2rem;
-            }
-
-            .install-btn {
-                bottom: 100px;
-                right: 10px;
-                font-size: 0.9rem;
-                padding: 12px 20px;
-            }
-
-            .social-bar {
-                padding: 10px 0;
-            }
-
-            .social-container {
-                gap: 15px;
-            }
-
-            .social-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 1.3rem;
-            }
-        }
-
         /* مؤشر التشغيل */
         .status-indicator {
             display: flex;
@@ -526,43 +533,110 @@
             to { transform: translateX(0); opacity: 1; }
         }
 
-        /* تحسينات للوضوح */
-        .social-title {
-            text-align: center;
-            color: var(--secondary-color);
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
+        /* التجاوب مع الأجهزة المحمولة */
+        @media (max-width: 768px) {
+            body {
+                padding-bottom: 120px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
 
-        /* تأثيرات إضافية */
-        .pulse-effect {
-            animation: pulse 2s infinite;
+            h1 {
+                font-size: 2rem;
+            }
+
+            .description {
+                font-size: 1rem;
+            }
+
+            .radio-player {
+                padding: 10px;
+            }
+
+            .play-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .timer-main-btn {
+                padding: 12px 25px;
+                font-size: 1.1rem;
+            }
+
+            .modal-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .modal-timer-btn {
+                padding: 12px;
+                font-size: 1rem;
+            }
+
+            .share-buttons {
+                gap: 10px;
+                overflow-x: auto;
+                padding-bottom: 10px;
+                justify-content: flex-start;
+            }
+            
+            .share-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+            
+            .twitter-x {
+                font-size: 1.5rem;
+            }
+
+            .install-btn {
+                bottom: 100px;
+                right: 10px;
+                font-size: 0.9rem;
+                padding: 12px 20px;
+            }
+
+            .social-bar {
+                padding: 10px 0;
+            }
+
+            .social-container {
+                gap: 15px;
+            }
+
+            .social-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
         }
         
-        /* تحسينات لقسم المؤقت */
-        .timer-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .timer-label {
-            font-size: 1.4rem;
-            color: var(--secondary-color);
-            font-weight: bold;
-        }
-        
-        .timer-buttons-container {
-            display: flex;
-            flex-wrap: nowrap;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 12px;
-            border-radius: 15px;
-            margin-bottom: 15px;
+        @media (max-width: 480px) {
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .header-title {
+                font-size: 1.2rem;
+            }
+            
+            .share-buttons {
+                gap: 8px;
+            }
+            
+            .share-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+            
+            .twitter-x {
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
@@ -571,16 +645,39 @@
     <div class="background-panorama"></div>
     <div class="overlay"></div>
 
+    <!-- نافذة المؤقت المنبثقة -->
+    <div class="modal-overlay" id="timerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">⏰ حدد وقت لنوم</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-timer-btn" data-minutes="5">5 دقائق</button>
+                <button class="modal-timer-btn" data-minutes="15">15 دقيقة</button>
+                <button class="modal-timer-btn" data-minutes="30">30 دقيقة</button>
+                <button class="modal-timer-btn" data-minutes="45">45 دقيقة</button>
+                <button class="modal-timer-btn" data-minutes="60">60 دقيقة</button>
+                <button class="modal-timer-btn" data-minutes="90">90 دقيقة</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <!-- الهيدر -->
         <header>
+             <center>
             <img src="logo.png" alt="شعار إذاعة الفرقة الرابعة FM" class="logo">
             <h1>إذاعة الفرقة الرابعة FM</h1>
             <p class="description">
                 بث إذاعي مباشر لقوات الطوارئ اليمنية – الفرقة الرابعة
                 استمع إلى آخر الأخبار والتقارير والزوامل الحماسية.
+            </p>
+                 </center>
+        </header>
+
         <!-- قسم البث المباشر -->
-        
+        <center>
             <h2 class="section-title">🎧 البث المباشر</h2>
             <div class="player-container">
                 <div class="radio-player">
@@ -594,43 +691,59 @@
                         <div class="status-dot" id="statusDot"></div>
                         <span class="status-text" id="statusText">جاهز للبث</span>
                     </div>
-
-                    <div class="volume-control">
+                     <div class="volume-control">
                         <i class="fas fa-volume-up volume-icon"></i>
-                        تحكم في الصوت
                         <input type="range" min="0" max="100" value="70" class="volume-slider" id="volumeSlider">
                     </div>
+                  <div class="volume-control">
+              <div class="timer-display-main" id="timerDisplayMain"></div>
+                  <button class="timer-main-btn" id="timerMainButton">
+                <i class="fas fa-clock"></i>
+                <span id="timerButtonText">تفعيل مؤقت النوم</span>
+            </button>
                 </div>
             </div>
-        <!-- قسم المؤقت - النسخة المحسنة -->
-              <div class="section-title">
-                <h4> ⏰ مؤقت النوم</h4>
-              </div>
-            <div class="timer-buttons-container٦">
-                <button class="timer-btn" data-minutes="5">5 دقائق</button>
-                <button class="timer-btn" data-minutes="15">15 دقيقة</button>
-                <button class="timer-btn" data-minutes="30">30 دقيقة</button>
-                <button class="timer-btn" data-minutes="45">45 دقيقة</button>
-                <button class="timer-btn" data-minutes="60">60 دقيقة</button>
+        </div>
+</center>
+        <!-- قسم مشاركة وسائل التواصل الاجتماعي -->
+        
+            <div class="section-title">
+            <center>
+            <div class="share-buttons">
+                <button class="share-btn share-facebook" id="shareFacebook">
+                    <i class="fab fa-facebook-f"></i>
+                </button>
+                <button class="share-btn share-whatsapp" id="shareWhatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                </button>
+                <button class="share-btn share-twitter" id="shareTwitter">
+                    <span class="twitter-x">𝕏</span>
+                </button>
+              <button class="share-btn share-instagram" id="shareInstagram">
+                    <i class="fab fa-instagram"></i>
+                </button>
+                <button class="share-btn share-telegram" id="shareTelegram">
+                    <i class="fab fa-telegram"></i>
+                </button>
+                <button class="share-btn share-general" id="shareGeneral">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+                </center>
             </div>
-                <div class="timer-display" id="timerDisplay"></div>
-                <div class="timer-buttons-container٧">
-                <button class="timer-cancel-btn" id="cancelTimer">إلغاء المؤقت</button>
+        </div>
+     <!-- معلومات إضافية -->
+    
             </div>
-
-        <!-- معلومات إضافية -->
-            </div>
+<center>
            <div class="section-title">
                   <h6>🔌 برمجة الإعلامي طلال سليمان المقطري</h6>
            </div>
             <p style="line-height: 1.8; text-align: center; font-size: 1.1rem;">
             
-
-        <!-- الفوتر -->
-        <footer>
-            <p> جميع الحقوق محفوظة©
-            <p>  للفرقة الرابعة - قوات الطوارئ اليمنية.2026</p>
+            <p>جميع الحقوق محفوظة©</p>
+            <p>للفرقة الرابعة - قوات الطوارئ اليمنية.2026</p>
         </footer>
+        </center>
     </div>
 
     <!-- أزرار التواصل الاجتماعي - مثبتة أسفل الصفحة -->
@@ -669,13 +782,24 @@
         // عناصر DOM
         const playButton = document.getElementById('playButton');
         const volumeSlider = document.getElementById('volumeSlider');
-        const timerButtons = document.querySelectorAll('.timer-btn');
-        const cancelTimerButton = document.getElementById('cancelTimer');
-        const timerDisplay = document.getElementById('timerDisplay');
+        const timerDisplayMain = document.getElementById('timerDisplayMain');
+        const timerMainButton = document.getElementById('timerMainButton');
+        const timerButtonText = document.getElementById('timerButtonText');
+        const timerModal = document.getElementById('timerModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalTimerButtons = document.querySelectorAll('.modal-timer-btn');
         const statusDot = document.getElementById('statusDot');
         const statusText = document.getElementById('statusText');
         const installButton = document.getElementById('installButton');
         const notification = document.getElementById('notification');
+        
+        // أزرار المشاركة
+        const shareFacebook = document.getElementById('shareFacebook');
+        const shareWhatsapp = document.getElementById('shareWhatsapp');
+        const shareInstagram = document.getElementById('shareInstagram');
+        const shareTwitter = document.getElementById('shareTwitter');
+        const shareTelegram = document.getElementById('shareTelegram');
+        const shareGeneral = document.getElementById('shareGeneral');
 
         // متغيرات التحكم
         let audio = null;
@@ -683,6 +807,14 @@
         let timerInterval = null;
         let remainingTime = 0;
         let deferredPrompt = null;
+        let isTimerActive = false;
+
+        // بيانات المشاركة
+        const shareData = {
+            title: 'إذاعة الفرقة الرابعة FM',
+            text: 'بث إذاعي مباشر لقوات الطوارئ اليمنية – الفرقة الرابعة FM',
+            url: window.location.href
+        };
 
         // تهيئة البث الصوتي
         function initAudio() {
@@ -766,30 +898,37 @@
             }
         });
 
-        // المؤقت
+        // المؤقت - الوظائف الجديدة
+        function openTimerModal() {
+            timerModal.style.display = 'flex';
+        }
+
+        function closeTimerModal() {
+            timerModal.style.display = 'none';
+        }
+
         function startTimer(minutes) {
+            // إغلاق النافذة المنبثقة
+            closeTimerModal();
+            
             // إلغاء أي مؤقت سابق
             clearInterval(timerInterval);
             
             // تعيين الوقت المتبقي بالثواني
             remainingTime = minutes * 60;
+            isTimerActive = true;
+            
+            // تحديث زر المؤقت الرئيسي
+            timerMainButton.classList.add('cancel');
+            timerButtonText.textContent = 'إلغاء المؤقت';
             
             // تحديث العرض
-            updateTimerDisplay();
-            
-            // تفعيل زر المؤقت النشط
-            timerButtons.forEach(btn => {
-                if (parseInt(btn.dataset.minutes) === minutes) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
+            updateTimerDisplayMain();
             
             // بدء العد التنازلي
             timerInterval = setInterval(() => {
                 remainingTime--;
-                updateTimerDisplay();
+                updateTimerDisplayMain();
                 
                 // عند انتهاء الوقت
                 if (remainingTime <= 0) {
@@ -797,42 +936,117 @@
                     if (audio && isPlaying) {
                         audio.pause();
                     }
-                    timerDisplay.textContent = 'تم إيقاف البث تلقائيًا';
+                    timerDisplayMain.textContent = 'تم إيقاف البث تلقائيًا';
+                    timerMainButton.classList.remove('cancel');
+                    timerButtonText.textContent = 'تفعيل مؤقت النوم';
+                    isTimerActive = false;
                     showNotification('تم إيقاف البث تلقائيًا بعد انتهاء المؤقت.');
-                    
-                    // إزالة التفعيل من جميع الأزرار
-                    timerButtons.forEach(btn => btn.classList.remove('active'));
                 }
             }, 1000);
+            
+            showNotification(`تم تفعيل مؤقت النوم لمدة ${minutes} دقيقة.`);
         }
 
-        // تحديث عرض المؤقت
-        function updateTimerDisplay() {
+        // تحديث عرض المؤقت الرئيسي
+        function updateTimerDisplayMain() {
             const minutes = Math.floor(remainingTime / 60);
             const seconds = remainingTime % 60;
-            timerDisplay.textContent = `متبقي: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            timerDisplayMain.textContent = `⏳ ${minutes}:${seconds.toString().padStart(2, '0')}`;
         }
 
         // إلغاء المؤقت
         function cancelTimer() {
             clearInterval(timerInterval);
-            timerDisplay.textContent = '';
-            timerButtons.forEach(btn => btn.classList.remove('active'));
+            timerDisplayMain.textContent = '';
+            timerMainButton.classList.remove('cancel');
+            timerButtonText.textContent = 'تفعيل مؤقت النوم';
+            isTimerActive = false;
             showNotification('تم إلغاء المؤقت.');
         }
 
-        // إضافة أحداث للمؤقت
-        timerButtons.forEach(button => {
-            if (!button.id || button.id !== 'cancelTimer') {
-                button.addEventListener('click', () => {
-                    const minutes = parseInt(button.dataset.minutes);
-                    startTimer(minutes);
-                    showNotification(`تم ضبط المؤقت على ${minutes} دقيقة.`);
-                });
+        // التحكم في زر المؤقت الرئيسي
+        timerMainButton.addEventListener('click', () => {
+            if (isTimerActive) {
+                cancelTimer();
+            } else {
+                openTimerModal();
             }
         });
 
-        cancelTimerButton.addEventListener('click', cancelTimer);
+        // إضافة أحداث لأزرار المؤقت في النافذة المنبثقة
+        modalTimerButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const minutes = parseInt(button.dataset.minutes);
+                startTimer(minutes);
+            });
+        });
+
+        // إغلاق النافذة المنبثقة
+        closeModal.addEventListener('click', closeTimerModal);
+        timerModal.addEventListener('click', (e) => {
+            if (e.target === timerModal) {
+                closeTimerModal();
+            }
+        });
+
+        // وظائف المشاركة على وسائل التواصل الاجتماعي
+        function shareOnFacebook() {
+            const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareData.url)}`;
+            window.open(url, '_blank', 'width=600,height=400');
+        }
+
+        function shareOnWhatsapp() {
+            const url = `https://wa.me/?text=${encodeURIComponent(shareData.text + ' ' + shareData.url)}`;
+            window.open(url, '_blank', 'width=600,height=400');
+        }
+
+        function shareOnInstagram() {
+            // Instagram لا يدعم المشاركة المباشرة، لذلك نفتح الموقع
+            window.open('https://www.instagram.com/', '_blank');
+            showNotification('انسخ الرابط والصقه في إنستغرام للمشاركة');
+        }
+
+        function shareOnTwitter() {
+            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.text)}&url=${encodeURIComponent(shareData.url)}`;
+            window.open(url, '_blank', 'width=600,height=400');
+        }
+
+        function shareOnTelegram() {
+            const url = `https://t.me/share/url?url=${encodeURIComponent(shareData.url)}&text=${encodeURIComponent(shareData.text)}`;
+            window.open(url, '_blank', 'width=600,height=400');
+        }
+
+        function shareGeneralMethod() {
+            if (navigator.share) {
+                navigator.share(shareData)
+                    .then(() => console.log('تمت المشاركة بنجاح'))
+                    .catch((error) => console.log('خطأ في المشاركة:', error));
+            } else {
+                // نسخ الرابط إلى الحافظة
+                navigator.clipboard.writeText(shareData.url)
+                    .then(() => {
+                        showNotification('تم نسخ الرابط إلى الحافظة');
+                    })
+                    .catch(() => {
+                        // طريقة بديلة لنسخ الرابط
+                        const tempInput = document.createElement('input');
+                        tempInput.value = shareData.url;
+                        document.body.appendChild(tempInput);
+                        tempInput.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(tempInput);
+                        showNotification('تم نسخ الرابط إلى الحافظة');
+                    });
+            }
+        }
+
+        // إضافة أحداث لأزرار المشاركة
+        shareFacebook.addEventListener('click', shareOnFacebook);
+        shareWhatsapp.addEventListener('click', shareOnWhatsapp);
+        shareInstagram.addEventListener('click', shareOnInstagram);
+        shareTwitter.addEventListener('click', shareOnTwitter);
+        shareTelegram.addEventListener('click', shareOnTelegram);
+        shareGeneral.addEventListener('click', shareGeneralMethod);
 
         // إظهار الإشعارات
         function showNotification(message) {
@@ -921,7 +1135,7 @@
             }, 1000);
             
             // إضافة تأثير النبض لأزرار التواصل الاجتماعي عند التحميل
-            const socialButtons = document.querySelectorAll('.social-btn');
+            const socialButtons = document.querySelectorAll('.social-btn, .share-btn');
             socialButtons.forEach((btn, index) => {
                 setTimeout(() => {
                     btn.classList.add('pulse-effect');
@@ -929,17 +1143,6 @@
                         btn.classList.remove('pulse-effect');
                     }, 2000);
                 }, index * 300);
-            });
-            
-            // إضافة تأثير النبض لأزرار المؤقت عند التحميل
-            const timerBtns = document.querySelectorAll('.timer-btn');
-            timerBtns.forEach((btn, index) => {
-                setTimeout(() => {
-                    btn.classList.add('pulse-effect');
-                    setTimeout(() => {
-                        btn.classList.remove('pulse-effect');
-                    }, 1500);
-                }, index * 200 + 1000);
             });
         });
 
@@ -952,58 +1155,45 @@
         });
 
         // إضافة تأثيرات تفاعلية لأزرار التواصل الاجتماعي
-        document.querySelectorAll('.social-btn').forEach(button => {
+        document.querySelectorAll('.social-btn, .share-btn').forEach(button => {
             button.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-5px) scale(1.1)';
             });
             
             button.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-            
-            button.addEventListener('click', function() {
-                this.style.transform = 'translateY(-5px) scale(1.1)';
-                setTimeout(() => {
+                if (!this.classList.contains('pulse-effect')) {
                     this.style.transform = 'translateY(0) scale(1)';
-                }, 300);
+                }
             });
         });
         
         // إضافة تأثيرات تفاعلية لأزرار المؤقت
-        document.querySelectorAll('.timer-btn, .timer-cancel-btn').forEach(button => {
+        document.querySelectorAll('.timer-main-btn, .modal-timer-btn').forEach(button => {
             button.addEventListener('mouseenter', function() {
-                if (!this.classList.contains('active')) {
-                    this.style.transform = 'translateY(-2px)';
+                if (!this.classList.contains('cancel')) {
+                    this.style.transform = 'translateY(-3px)';
                 }
             });
             
             button.addEventListener('mouseleave', function() {
-                if (!this.classList.contains('active')) {
+                if (!this.classList.contains('cancel')) {
                     this.style.transform = 'translateY(0)';
                 }
             });
-            
-            button.addEventListener('click', function() {
-                this.style.transform = 'translateY(-2px)';
-                setTimeout(() => {
-                    if (!this.classList.contains('active')) {
-                        this.style.transform = 'translateY(0)';
-                    }
-                }, 300);
-            });
         });
             
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js')
-      .then(registration => {
-        console.log('Service Worker registered successfully:', registration);
-      })
-      .catch(error => {
-        console.log('Service Worker registration failed:', error);
-      });
-  });
-}
+        // تسجيل Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registered successfully:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
     </script>
 </body>
 </html>
